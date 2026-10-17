@@ -1,0 +1,314 @@
+[{
+		"schema":	"DiscoverRequest",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"method":	"server/discover",
+			"params":	{
+				"_meta":	{
+					"io.modelcontextprotocol/protocolVersion":	"2026-07-28",
+					"io.modelcontextprotocol/clientCapabilities":	{
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"DiscoverResultResponse",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"result":	{
+				"resultType":	"complete",
+				"supportedVersions":	["2026-07-28"],
+				"ttlMs":	0,
+				"cacheScope":	"private",
+				"capabilities":	{
+					"tools":	{
+					},
+					"events":	{
+					}
+				},
+				"_meta":	{
+					"io.modelcontextprotocol/serverInfo":	{
+						"name":	"esp32-dot",
+						"version":	"0.2.0"
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"ListToolsRequest",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"method":	"tools/list",
+			"params":	{
+				"_meta":	{
+					"io.modelcontextprotocol/protocolVersion":	"2026-07-28",
+					"io.modelcontextprotocol/clientCapabilities":	{
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"ListToolsResultResponse",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"result":	{
+				"ttlMs":	0,
+				"cacheScope":	"private",
+				"tools":	[{
+						"name":	"device_status",
+						"title":	"Read ESP32 status",
+						"description":	"Read the paired ESP32 device ID, connection state, and pending request.",
+						"inputSchema":	{
+							"type":	"object",
+							"properties":	{
+							},
+							"additionalProperties":	false
+						},
+						"annotations":	{
+							"readOnlyHint":	true,
+							"destructiveHint":	false,
+							"idempotentHint":	true,
+							"openWorldHint":	false
+						}
+					}, {
+						"name":	"reply_to_device",
+						"title":	"Speak a reply on the ESP32",
+						"description":	"Queue a spoken reply to a pending device.utterance event. Copy request_id from that event. A reply is accepted once per request; this never starts a new conversation.",
+						"inputSchema":	{
+							"type":	"object",
+							"properties":	{
+								"request_id":	{
+									"type":	"string",
+									"minLength":	1,
+									"maxLength":	63
+								},
+								"text":	{
+									"type":	"string",
+									"minLength":	1,
+									"maxLength":	2000
+								}
+							},
+							"required":	["request_id", "text"],
+							"additionalProperties":	false
+						},
+						"annotations":	{
+							"readOnlyHint":	false,
+							"destructiveHint":	false,
+							"idempotentHint":	true,
+							"openWorldHint":	false
+						}
+					}, {
+						"name":	"get_device_preferences",
+						"title":	"Read device preferences",
+						"description":	"Read this device's display name, aliases, response preferences, volume, hands-free and physical microphone mute state. Use when personalizing replies or reviewing settings. These are local device preferences.",
+						"inputSchema":	{
+							"type":	"object",
+							"properties":	{
+							},
+							"additionalProperties":	false
+						},
+						"annotations":	{
+							"readOnlyHint":	true,
+							"destructiveHint":	false,
+							"idempotentHint":	true,
+							"openWorldHint":	false
+						}
+					}, {
+						"name":	"update_device_preferences",
+						"title":	"Save device preferences",
+						"description":	"Save explicitly requested device settings or response style. Fields are an atomic patch; aliases replaces the list. Text limits are UTF-8 bytes. Microphone mute can only be changed on the physical device. Do not invent or store sensitive personal facts.",
+						"inputSchema":	{
+							"type":	"object",
+							"properties":	{
+								"volume_percent":	{
+									"type":	"integer",
+									"minimum":	0,
+									"maximum":	100
+								},
+								"hands_free":	{
+									"type":	"boolean"
+								},
+								"device_name":	{
+									"type":	"string",
+									"minLength":	1,
+									"maxLength":	32
+								},
+								"aliases":	{
+									"type":	"array",
+									"maxItems":	4,
+									"uniqueItems":	true,
+									"items":	{
+										"type":	"string",
+										"minLength":	1,
+										"maxLength":	32
+									}
+								},
+								"personality":	{
+									"type":	"string",
+									"maxLength":	512
+								}
+							},
+							"minProperties":	1,
+							"additionalProperties":	false
+						},
+						"annotations":	{
+							"readOnlyHint":	false,
+							"destructiveHint":	false,
+							"idempotentHint":	true,
+							"openWorldHint":	false
+						}
+					}],
+				"resultType":	"complete",
+				"_meta":	{
+					"io.modelcontextprotocol/serverInfo":	{
+						"name":	"esp32-dot",
+						"version":	"0.2.0"
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"CallToolRequest",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"method":	"tools/call",
+			"params":	{
+				"name":	"get_device_preferences",
+				"arguments":	{
+				},
+				"_meta":	{
+					"io.modelcontextprotocol/protocolVersion":	"2026-07-28",
+					"io.modelcontextprotocol/clientCapabilities":	{
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"CallToolResultResponse",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"result":	{
+				"structuredContent":	{
+					"volume_percent":	60,
+					"microphone_muted":	false,
+					"hands_free":	true,
+					"device_name":	"Digimon",
+					"personality":	"",
+					"revision":	1,
+					"microphone_control_is_physical_only":	true,
+					"aliases":	["mommy"]
+				},
+				"isError":	false,
+				"content":	[{
+						"type":	"text",
+						"text":	"Device preferences"
+					}],
+				"resultType":	"complete",
+				"_meta":	{
+					"io.modelcontextprotocol/serverInfo":	{
+						"name":	"esp32-dot",
+						"version":	"0.2.0"
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"CallToolRequest",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"method":	"tools/call",
+			"params":	{
+				"name":	"update_device_preferences",
+				"arguments":	{
+					"volume_percent":	55
+				},
+				"_meta":	{
+					"io.modelcontextprotocol/protocolVersion":	"2026-07-28",
+					"io.modelcontextprotocol/clientCapabilities":	{
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"CallToolResultResponse",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"result":	{
+				"structuredContent":	{
+					"volume_percent":	55,
+					"microphone_muted":	false,
+					"hands_free":	true,
+					"device_name":	"Digimon",
+					"personality":	"",
+					"revision":	2,
+					"microphone_control_is_physical_only":	true,
+					"aliases":	["mommy"],
+					"saved":	true
+				},
+				"isError":	false,
+				"content":	[{
+						"type":	"text",
+						"text":	"Device preferences saved"
+					}],
+				"resultType":	"complete",
+				"_meta":	{
+					"io.modelcontextprotocol/serverInfo":	{
+						"name":	"esp32-dot",
+						"version":	"0.2.0"
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"CallToolRequest",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"method":	"tools/call",
+			"params":	{
+				"name":	"reply_to_device",
+				"arguments":	{
+					"request_id":	"pending",
+					"text":	"hello"
+				},
+				"_meta":	{
+					"io.modelcontextprotocol/protocolVersion":	"2026-07-28",
+					"io.modelcontextprotocol/clientCapabilities":	{
+					}
+				}
+			}
+		}
+	}, {
+		"schema":	"CallToolResultResponse",
+		"value":	{
+			"jsonrpc":	"2.0",
+			"id":	1,
+			"result":	{
+				"structuredContent":	{
+					"accepted":	true,
+					"duplicate":	false,
+					"request_id":	"pending"
+				},
+				"isError":	false,
+				"content":	[{
+						"type":	"text",
+						"text":	"Reply queued for speech"
+					}],
+				"resultType":	"complete",
+				"_meta":	{
+					"io.modelcontextprotocol/serverInfo":	{
+						"name":	"esp32-dot",
+						"version":	"0.2.0"
+					}
+				}
+			}
+		}
+	}]

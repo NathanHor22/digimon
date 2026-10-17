@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.16)
+set(PROJECT_VER "0.2.0")
+set(COMPONENTS main)
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+project(esp32_dot VERSION 0.2.0)
